@@ -5,6 +5,7 @@
     Runtime: 28.307598999999755
     R = 101.76956199999995 / 28.307598999999755 = 3.595132247
 """
+import itertools
 
 def nbody(loops, reference, iterations):
 	'''
@@ -72,13 +73,7 @@ def nbody(loops, reference, iterations):
 	v[2] = pz / m
 
 	# Set up body pairs
-	body_pairs = []
-	seenit = set()
-	for body1 in BODIES.keys():
-		for body2 in BODIES.keys():
-			if not (body2 in seenit) and (body1 != body2):
-				body_pairs.append((body1, body2))
-				seenit.add(body1)
+	body_pairs = list(itertools.combinations(BODIES.keys(), 2))
 
 	for i in range(loops * iterations):
 		'''

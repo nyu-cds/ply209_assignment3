@@ -1,8 +1,9 @@
 """
     N-body simulation.
 
-	Using data aggregation to reduce loop overheads
+    Using data aggregation to reduce loop overheads
     Runtime: 89.14172699999926
+    #2 Optimization
 """
 
 PI = 3.14159265358979323

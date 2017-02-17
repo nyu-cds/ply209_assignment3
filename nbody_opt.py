@@ -61,7 +61,7 @@ def nbody(loops, reference, iterations):
 	'''
 	(px, py, pz) = (0.0, 0.0, 0.0)
 	for body in BODIES.keys():
-		(r, [vx, vy, vz], m) = BODIES[body]
+		(_, [vx, vy, vz], m) = BODIES[body]
 		px -= vx * m
 		py -= vy * m
 		pz -= vz * m

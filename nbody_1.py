@@ -3,6 +3,7 @@
 
     Reducing function call overhead
     Runtime: 41.78572200000008
+    #1 Time Optimization
 """
 
 PI = 3.14159265358979323

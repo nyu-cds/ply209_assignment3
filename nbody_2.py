@@ -3,6 +3,7 @@
 
     Using alternatives to membership testing of lists
     Runtime: 104.82864100000006
+    #3 Optimization?
 """
 
 PI = 3.14159265358979323

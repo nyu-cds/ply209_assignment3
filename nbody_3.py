@@ -1,8 +1,9 @@
 """
     N-body simulation.
 
-	Using local rather than global variables
+    Using local rather than global variables
     Runtime: 109.23651700000028?
+    #4 Optimization?
 """
 
 PI = 3.14159265358979323

@@ -6,6 +6,7 @@
     R = 101.76956199999995 / 28.307598999999755 = 3.595132247
 """
 import itertools
+import timeit
 
 #Global Variables
 PI = 3.14159265358979323
@@ -131,7 +132,6 @@ def nbody(loops, reference, iterations, bodies):
 
 
 if __name__ == '__main__':
-	import timeit
 
 	#Timing It
 	print(timeit.timeit("nbody(100, 'sun', 20000, BODIES)", setup="from __main__ import BODIES,nbody", number=1))

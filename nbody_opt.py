@@ -62,7 +62,7 @@ def nbody(loops, reference, iterations, bodies):
 		offset values from this reference
 	'''
 	(px, py, pz) = (0.0, 0.0, 0.0)
-	for body in bodies.keys():
+	for body in bodies:
 		(_, [vx, vy, vz], m) = bodies[body]
 		px -= vx * m
 		py -= vy * m
@@ -74,7 +74,7 @@ def nbody(loops, reference, iterations, bodies):
 	v[2] = pz / m
 
 	# Set up body pairs
-	body_pairs = list(itertools.combinations(bodies.keys(), 2))
+	body_pairs = list(itertools.combinations(bodies, 2))
 
 	for i in range(loops * iterations):
 		'''
@@ -102,7 +102,7 @@ def nbody(loops, reference, iterations, bodies):
 			v2[1] += dy * m1_mag
 			v2[2] += dz * m1_mag
 
-		for body in bodies.keys():
+		for body in bodies:
 			(r, [vx, vy, vz], m) = bodies[body]
 
 			#update_rs(r, dt, vx, vy, vz)
@@ -126,7 +126,7 @@ def nbody(loops, reference, iterations, bodies):
 				# Compute energy
 				report_energy -= (m1 * m2) / ((dx ** 2 + dy ** 2 + dz ** 2) ** 0.5)
 
-			for body in bodies.keys():
+			for body in bodies:
 				(r, [vx, vy, vz], m) = bodies[body]
 				report_energy += m * (vx * vx + vy * vy + vz * vz) / 2.
 

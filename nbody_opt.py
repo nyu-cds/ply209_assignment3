@@ -76,7 +76,7 @@ def nbody(loops, reference, iterations, bodies):
 	# Set up body pairs
 	body_pairs = list(itertools.combinations(bodies, 2))
 
-	for i in range(loops * iterations):
+	for i in range(loops * iterations + 1):
 		'''
 			advance the system one timestep
 		'''

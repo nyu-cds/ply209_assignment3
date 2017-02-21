@@ -147,7 +147,7 @@ def nbody(loops, reference, iterations):
 				body_pairs.append((body1, body2))
 				seenit.add(body1)
 
-	for i in range(loops * iterations):
+	for i in range(loops * iterations + 1):
 		advance(0.01)
 		if i != 0 and i % iterations == 0:
 			print(report_energy())

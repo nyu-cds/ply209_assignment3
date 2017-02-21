@@ -146,13 +146,13 @@ def nbody(loops, reference, iterations):
 	offset_momentum(BODIES[reference])
 
 	#Set Local Definitions
-	rep_engy = report_energy()
+	rep_engy = report_energy
 	adv = advance
 
 	for _ in range(loops):
 		for _ in range(iterations):
 			adv(0.01)
-		print(rep_engy)
+		print(rep_engy())
 
 
 if __name__ == '__main__':

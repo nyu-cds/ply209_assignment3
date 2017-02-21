@@ -54,7 +54,7 @@ def nbody(loops, reference, iterations):
 	'''
 
 	# Set up global state
-	dt = 0.001
+	dt = 0.01
 
 	#offset_momentum(BODIES[reference])
 	'''

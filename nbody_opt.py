@@ -47,42 +47,9 @@ BODIES = {
 			1.62824170038242295e-03 * DAYS_PER_YEAR,
 			-9.51592254519715870e-05 * DAYS_PER_YEAR],
 			5.15138902046611451e-05 * SOLAR_MASS)}
-
-def nbody(loops, reference, iterations, bodies):
-	'''
-		nbody simulation
-		loops - number of loops to run
-		reference - body at center of system
-		iterations - number of timesteps to advance
-	'''
-
-	#Offset momentum
-	'''
-		ref is the body in the center of the system
-		offset values from this reference
-	'''
-	(px, py, pz) = (0.0, 0.0, 0.0)
-	for body in bodies:
-		(_, [vx, vy, vz], m) = bodies[body]
-		px -= vx * m
-		py -= vy * m
-		pz -= vz * m
-
-	(r, v, m) = bodies[reference]
-	v[0] = px / m
-	v[1] = py / m
-	v[2] = pz / m
-
-	# Set up body pairs
-	body_pairs = list(itertools.combinations(bodies, 2))
-
-	for i in range(loops * iterations + 1):
-		'''
-			advance the system one timestep
-		'''
-		# Local Variables
-		dt = 0.01
-
+			
+def advance(dt, iterations, bodies, body_pairs):
+	for _ in range(iterations):
 		for (body1, body2) in body_pairs:
 			([x1, y1, z1], v1, m1) = bodies[body1]
 			([x2, y2, z2], v2, m2) = bodies[body2]
@@ -109,28 +76,55 @@ def nbody(loops, reference, iterations, bodies):
 			r[0] += dt * vx
 			r[1] += dt * vy
 			r[2] += dt * vz
+			
+def report_energy(bodies, body_pairs, e=0.0):
+	for (body1, body2) in body_pairs:
+		((x1, y1, z1), v1, m1) = bodies[body1]
+		((x2, y2, z2), v2, m2) = bodies[body2]
 
-		if i != 0 and i % iterations == 0:
-			#Report Energy
-			report_energy = 0.0
-			'''
-				compute the energy and return it so that it can be printed
-			'''
-			for (body1, body2) in body_pairs:
-				((x1, y1, z1), v1, m1) = bodies[body1]
-				((x2, y2, z2), v2, m2) = bodies[body2]
+		(dx, dy, dz) = (x1-x2, y1-y2, z1-z2)
+		e -= (m1 * m2) / ((dx * dx + dy * dy + dz * dz) ** 0.5)
 
-				# Input Deltas
-				(dx, dy, dz) = (x1 - x2, y1 - y2, z1 - z2)
+	for body in bodies:
+		(r, [vx, vy, vz], m) = bodies[body]
+		e += m * (vx * vx + vy * vy + vz * vz) / 2.
 
-				# Compute energy
-				report_energy -= (m1 * m2) / ((dx ** 2 + dy ** 2 + dz ** 2) ** 0.5)
+	return e
 
-			for body in bodies:
-				(r, [vx, vy, vz], m) = bodies[body]
-				report_energy += m * (vx * vx + vy * vy + vz * vz) / 2.
+def nbody(loops, reference, iterations, bodies):
+	'''
+		nbody simulation
+		loops - number of loops to run
+		reference - body at center of system
+		iterations - number of timesteps to advance
+	'''
 
-			print(report_energy)
+	#Offset momentum
+	'''
+		ref is the body in the center of the system
+		offset values from this reference
+	'''
+	(px, py, pz) = (0.0, 0.0, 0.0)
+	for body in bodies:
+		(_, [vx, vy, vz], m) = bodies[body]
+		px -= vx * m
+		py -= vy * m
+		pz -= vz * m
+
+	(r, v, m) = bodies[reference]
+	v[0] = px / m
+	v[1] = py / m
+	v[2] = pz / m
+	
+	body_pairs = list(itertools.combinations(bodies, 2))
+
+	for i in range(loops):
+		'''
+			advance the system one timestep
+		'''
+		advance(0.01, iterations, bodies, body_pairs)
+		
+		print(report_energy(bodies, body_pairs))
 
 
 if __name__ == '__main__':

@@ -1,9 +1,9 @@
 """
     N-body simulation.
 
-    Combined Optimizations
-    Runtime: 28.307598999999755
-    R = 101.76956199999995 / 28.307598999999755 = 3.595132247
+    Combined Optimizations plus itertools
+    Runtime: 27.288392349172744
+    R = 101.76956199999995 / 27.288392349172744 = 3.72940848614
 """
 import itertools
 import timeit

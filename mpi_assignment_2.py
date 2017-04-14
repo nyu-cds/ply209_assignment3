@@ -13,7 +13,15 @@ buffer = np.zeros(1)
 
 #Rank 0 Starting process
 if rank == 0:
-	buffer[0] = input("Please enter something: ")
+	inp = None
+	
+	#Continuously ask for correct input: Integer less than 100
+	while inp is None or buffer[0] >= 100:
+		inp = input("Please insert an integer less than 100: ")
+		try:
+			buffer[0] = int(inp)
+		except ValueError:
+			inp = None
 	
 	#Make sure there is more than 1 process
 	if size > 1:
@@ -22,7 +30,7 @@ if rank == 0:
 	
 	print("Final Result:", buffer[0])
 else:
-
+	#Receive from previous rank
 	comm.Recv(buffer, source=rank-1)
 	
 	print("Rank:", rank, "Received:", buffer[0], "Result:", buffer[0]*rank)
@@ -30,7 +38,4 @@ else:
 	buffer[0] *= rank
 	
 	#Decide to prop up to return to origin
-	if rank != size - 1:
-		comm.Send(buffer, dest=rank+1)
-	else:
-		comm.Send(buffer, dest=0)
+	comm.Send(buffer, dest=(rank + 1) % size)

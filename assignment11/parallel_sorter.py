@@ -2,8 +2,8 @@ from mpi4py import MPI
 import numpy as np
 
 #Distributed sort
-#Run program: mpiexec -n 10 python parallel_sorter.py
-
+#Run program: mpiexec -n 4 python parallel_sorter.py
+#Sorting less than memory limits doesn't save any time though
 
 comm = MPI.COMM_WORLD
 size = comm.Get_size()
@@ -11,7 +11,7 @@ rank = comm.Get_rank()
 
 if rank == 0:
 	# init random data
-	input_size = 10000000
+	input_size = 10000
 	input_arr = np.random.randint(0, input_size, size = input_size)
 	
 	#Bucket Results into ranges corresponding to number of processes
@@ -20,7 +20,7 @@ if rank == 0:
 	bins = np.linspace(min, max, num=size)
 	digitized = np.digitize(input_arr, bins)
 	
-	#TODO: Could really optimize here since its O(mn) instead of O(n)
+	#Thought I could optimize here since its O(mn) instead of O(n) but after some benchmarks, this one liner is the fastest since loops have too much overhead
 	data = np.array([input_arr[digitized == i+1] for i in range(size)])
 else:
 	data = None
@@ -37,4 +37,4 @@ data = comm.gather(data, root=0)
 
 if rank == 0:
 	#Concatenate results
-	print(np.concatenate(data).ravel())
+	print(np.concatenate(data))
